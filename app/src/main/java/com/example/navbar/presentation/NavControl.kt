@@ -1,8 +1,8 @@
 package com.example.navbar.presentation
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Settings
@@ -53,11 +53,11 @@ fun WearableNavigationBarWithScreens() {
                         }
                     )
                     NavigationBarItem(
-                        icon = { Icon(Icons.Default.Phone, contentDescription = "Favorites") },
+                        icon = { Icon(Icons.Default.Phone, contentDescription = "Phone") },
                         selected = selectedItem == 1,
                         onClick = {
                             selectedItem = 1
-                            navController.navigate("favorites") {
+                            navController.navigate("phone") {
                                 popUpTo(navController.graph.startDestinationId) { inclusive = true }
                             }
                         }
@@ -78,13 +78,19 @@ fun WearableNavigationBarWithScreens() {
     }
 }
 
+@SuppressLint("ComposableDestinationInComposeScope")
 @Composable
 fun NavigationGraph(navController: NavHostController) {
     NavHost(navController = navController, startDestination = "home") {
         composable("home") { HomeScreen(navController) }
-        composable("favorites") { PhoneScreen(navController) }
+        composable("phone") { EmergencyScreen(navController) }
         composable("settings") { SettingsScreen(navController) }
         composable("emergency") { EmergencyScreen(navController) }
-        composable("non_emergency") { NonEmergencyScreen() }
+        composable("non_emergency") { NonEmergencyScreen(navController) }
+        composable("profile_screen") { LoginScreen(navController) }
+        composable("signup_screen") { SignUpScreen(navController) }
     }
 }
+
+
+
